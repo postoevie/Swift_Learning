@@ -429,3 +429,24 @@ var rect2 = IntervalSizeRect()
 rect2.subHeigth = 10
 rect2.$subHeigth
 */
+
+//GLOBAL AND LOCAL VARS
+
+//Type props
+enum SolarSystem {
+    static var amount :Int {
+        return 8
+    }
+    static var showedPlanets = 5
+}
+
+class SomeClassWithVarTypes {
+    static var someComputedVar: Int{
+        get { 21 }
+        set {newValue * 3}
+    }
+    static let someConst: Int = 1
+    class var overriDableReadOnlyProp :Int{
+        return 1
+    }
+}
