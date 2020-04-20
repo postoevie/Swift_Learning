@@ -178,6 +178,7 @@ let reverseSorted = odds.sorted {$1 < $0}
 
 
 //CLASSES
+/*
 class Shape {
     var numberOfSides = 0
     let color = "red"
@@ -348,4 +349,83 @@ class WorkPeocess {
 }
 
 
+
 //proerty wrappers
+@propertyWrapper
+class PositiveValue {
+    private var number :Int
+    init() {self.number = 1}
+    var wrappedValue :Int {
+        get { number }
+        set { number = max(1, newValue) }
+    }
+}
+
+
+struct Rectangle {
+    @PositiveValue var width: Int
+    @PositiveValue var heigth: Int
+}
+
+var rect1 = Rectangle()
+rect1.width = 0
+
+@propertyWrapper
+class MinMaxWrapper {
+    private var min, max, number :Int
+    var projectedValue: Bool
+    init() {
+        number = 1
+        min = 1
+        max = 10
+        projectedValue = false
+    }
+    init(wrappedValue: Int) {
+        self.number = wrappedValue
+        self.min = 0
+        self.max = 10
+        projectedValue = false
+        if(!isBetween(self.min, self.max, value: wrappedValue)) {
+            self.number = min
+        }
+    }
+    init(wrappedValue: Int, min: Int, max: Int) {
+        self.min = min
+        self.max = max
+        self.number = wrappedValue
+        projectedValue = false
+        if(!isBetween(self.min, self.max, value: wrappedValue)) {
+            self.number = min
+            projectedValue = false
+        } else {
+            projectedValue = true
+        }
+    }
+    var wrappedValue: Int {
+        get {number}
+        set {
+            if(isBetween(self.min, self.max, value: newValue)) {
+                number = newValue
+                projectedValue = false
+            } else {
+                projectedValue = true
+            }
+            
+        }
+    }
+    func isBetween(_ min: Int, _ max: Int, value: Int) -> (Bool){
+        return value >= min && value <= max
+    }
+}
+
+struct IntervalSizeRect {
+    @MinMaxWrapper var width :Int
+    @MinMaxWrapper(min: 1, max: 10) var heigth : Int = 1
+    @MinMaxWrapper(wrappedValue: 1, min: 10, max: 10) var subWidth : Int
+    @MinMaxWrapper var subHeigth : Int = 10
+}
+
+var rect2 = IntervalSizeRect()
+rect2.subHeigth = 10
+rect2.$subHeigth
+*/
