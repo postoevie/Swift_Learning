@@ -1,6 +1,6 @@
 import UIKit
 
-// SIMPLE VALUS, CONTROLS
+// SIMPLE VALUES, CONTROLS
 /*var itemString :String? = "stringPresent";
 
 if let maybeNil = itemString {
@@ -453,7 +453,7 @@ class SomeClassWithVarTypes {
 */
 
 //Methods - functions associated with particular type
-
+/*
 class Hero {
     var x = 0, y = 0
     func moveTo(x: Int, y:Int) {
@@ -553,3 +553,48 @@ class Runner {
 var runner = Runner(name: "Josh")
 runner.achieve(to: 1)
 runner.tracker.advance(nextCP: 4)
+*/
+
+//Subscripts
+class HasROSubscript {
+    subscript(index: Int) -> Int{
+        return index * 3
+    }
+}
+
+let objWithSubScript = HasROSubscript()
+print(objWithSubScript[2])//prints 6
+
+
+struct Vector3 {
+    var x, y, z :Int
+    init(_ x: Int,_ y: Int,_ z: Int) {
+        self.x = x
+        self.y = y
+        self.z = z
+    }
+}
+
+class Matrix3D {
+    let size :Vector3
+    var values: [Double]
+    init(_ x: Int,_ y: Int,_ z: Int) {
+        self.size = Vector3(x, y, z)
+        self.values = Array(repeating:0.0, count: x * y * z)
+    }
+    subscript(xValue: Int, yValue: Int, zValue: Int) -> Double {
+        get {
+            return values[(size.x * size.y * zValue) + (size.x * yValue) + xValue]
+        }
+        set {
+            values[(size.x * size.y * zValue) + (size.x * yValue) + xValue] = newValue
+        }
+    }
+}
+
+var matrixDim3 = Matrix3D(2, 2, 2)
+print(matrixDim3[1,1,1])
+matrixDim3[1,1,1] = 3
+print(matrixDim3[1,1,1])
+
+
