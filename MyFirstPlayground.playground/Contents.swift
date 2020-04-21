@@ -428,7 +428,7 @@ struct IntervalSizeRect {
 var rect2 = IntervalSizeRect()
 rect2.subHeigth = 10
 rect2.$subHeigth
-*/
+
 
 //GLOBAL AND LOCAL VARS
 
@@ -450,3 +450,106 @@ class SomeClassWithVarTypes {
         return 1
     }
 }
+*/
+
+//Methods - functions associated with particular type
+
+class Hero {
+    var x = 0, y = 0
+    func moveTo(x: Int, y:Int) {
+        self.x = x
+        self.y = y
+    }
+    func isAbandonSquare(squareSide: Int) -> (Bool) {
+        x > squareSide || y > squareSide
+    }
+}
+
+var hero1 = Hero()
+hero1.moveTo(x: 10, y: 5)
+hero1.isAbandonSquare(squareSide: 15)
+
+//mutating methods
+struct Rectangle {
+    var width: Double
+    var heigth: Double
+    init() {
+        width = 1
+        heigth = 1
+    }
+    init(_ width: Double,_ heigth: Double) {
+        self.width = width
+        self.heigth = heigth
+    }
+    mutating func increase (byW widthDelta: Double, byH heigtDelta: Double) {
+        self.width += widthDelta
+        self.heigth += heigtDelta
+    }
+    mutating func setSizes(width: Double, heigth:Double) {
+        self = Rectangle(width, heigth)
+    }
+}
+
+var rectMutable = Rectangle()
+rectMutable.increase(byW: 2, byH: 3)
+print(rectMutable)
+rectMutable.setSizes(width: 2, heigth: 1)
+let rectImmutable = Rectangle()
+//rectImmutable.increase(byW: 1, byH: 2) //error
+
+enum Switch {
+    case off, on
+    mutating func next() {
+        switch self {
+        case .off:
+            self = .on
+        case .on:
+            self = .off
+        }
+    }
+}
+
+var ligthSwitch = Switch.off
+ligthSwitch.next()
+
+//Type methods
+struct RaceTracker {
+    static var maxCheckpoints :Int = 10
+    static var unlockedCheckpoints :Int = 1
+    var currentCheckpoint: Int = 0
+    static func proceed (newCPValue :Int) {
+        if (unlockedCheckpoints < newCPValue) {
+            unlockedCheckpoints = newCPValue
+        }
+    }
+    
+    static func isProceeded(newCPValue :Int) -> Bool{
+        return newCPValue <= unlockedCheckpoints
+    }
+    
+    mutating func advance (nextCP: Int) -> Bool {
+        if (RaceTracker.isProceeded(newCPValue: nextCP)) {
+            currentCheckpoint = nextCP
+            return false
+        } else {
+            return false
+        }
+    }
+}
+
+class Runner {
+    var name: String
+    var tracker: RaceTracker
+    init(name: String) {
+        self.name = name
+        self.tracker = RaceTracker()
+    }
+    func achieve(to checkpoint: Int) {
+        RaceTracker.proceed(newCPValue: checkpoint + 1)
+        tracker.advance(nextCP: checkpoint + 1)
+    }
+}
+
+var runner = Runner(name: "Josh")
+runner.achieve(to: 1)
+runner.tracker.advance(nextCP: 4)
