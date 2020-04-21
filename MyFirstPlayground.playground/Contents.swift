@@ -554,7 +554,7 @@ var runner = Runner(name: "Josh")
 runner.achieve(to: 1)
 runner.tracker.advance(nextCP: 4)
 */
-
+/*
 //Subscripts
 class HasROSubscript {
     subscript(index: Int) -> Int{
@@ -596,5 +596,42 @@ var matrixDim3 = Matrix3D(2, 2, 2)
 print(matrixDim3[1,1,1])
 matrixDim3[1,1,1] = 3
 print(matrixDim3[1,1,1])
+*/
 
+//enums
+enum Chess {
+    case king, queen, rook, bishop, knight, pawn
+    func simpleDescription() {
+        switch self {
+            case .king: print("King")
+            case .queen: print("Queen")
+            case .rook: print("Rook")
+            case .bishop: print("Bishop")
+            case .knight: print("Knight")
+            case .pawn: print("Pawn")
+        }
+    }
+}
+
+var figure = Chess.bishop
+figure.simpleDescription()
+
+enum ServerResponse {
+    case success(String, String)
+    case unauthorized(String)
+    case forbidden(String)
+}
+
+let success = ServerResponse.success("Hello", "6  AM")
+let unauthorized = ServerResponse.unauthorized("Unauthorized")
+let forbidden = ServerResponse.forbidden("Forbidden")
+
+switch forbidden {
+    case let .success(greeting, timestamp):
+        print("\(greeting), it's \(timestamp) now")
+    case let .unauthorized(message):
+        print("Sorry, error: \(message)")
+    case let .forbidden(message):
+        print("Server error: \(message)")
+}
 
