@@ -613,7 +613,7 @@ enum Chess {
     }
 }
 
-var figure = Chess.bishop
+var figure :Chess = .bishop
 figure.simpleDescription()
 
 enum ServerResponse {
@@ -625,13 +625,120 @@ enum ServerResponse {
 let success = ServerResponse.success("Hello", "6  AM")
 let unauthorized = ServerResponse.unauthorized("Unauthorized")
 let forbidden = ServerResponse.forbidden("Forbidden")
+//
+//switch forbidden {
+//    case let .success(greeting, timestamp):
+//        print("\(greeting), it's \(timestamp) now")
+//    case let .unauthorized(message):
+//        print("Sorry, error: \(message)")
+//    case let .forbidden(message):
+//        print("Server error: \(message)")
+//}
 
-switch forbidden {
-    case let .success(greeting, timestamp):
-        print("\(greeting), it's \(timestamp) now")
-    case let .unauthorized(message):
-        print("Sorry, error: \(message)")
-    case let .forbidden(message):
-        print("Server error: \(message)")
+let processorName = "AMD Athlon"
+switch processorName {
+    case "Intel Core 2 DUO": print("Intel Core 2 desc")
+    case let name where name.hasPrefix("AMD"):
+        print("AMD Family processor")
+        switch name {
+        case let model where model.contains("Ryzen"): print("Ryzen line")
+        default: print("Old or unknown model")
+    }
+    default: print("Unknown processor")
 }
 
+
+protocol ExampleProtocol {
+    var simpleDescription: String {get}
+    mutating func add()
+}
+
+class SimpleClass : ExampleProtocol {
+    var simpleDescription: String = "description for suit protocol"
+    func add() {
+        simpleDescription.append(" Protocol used succesfully")
+    }
+}
+
+struct SimpleStruct : ExampleProtocol {
+    var simpleDescription: String = "good structure"
+    mutating func add() {
+        simpleDescription.append(" Even conforms protocol.")
+    }
+}
+
+var sc = SimpleClass()
+sc.add()
+
+//extention
+extension Double : ExampleProtocol {
+    var simpleDescription: String {
+        return "It is simple description of extended Double! Number \(self)"
+    }
+    mutating func add() {
+        self += 50
+    }
+}
+
+
+//error handling
+
+//1st approach
+enum ErrorCode: Error {
+    case stackOverflow(String)
+    case networkUnavailable
+    case notEnoughDiskSpace
+}
+
+func compile(sourceMeta :String) throws -> String {
+    if sourceMeta.contains("infinity loop") {
+        throw ErrorCode.stackOverflow("It is stackoverflow!")
+    }
+    if sourceMeta.contains("no enough disk space") {
+        throw ErrorCode.notEnoughDiskSpace
+    }
+    return "Code compiled succesfully"
+}
+
+do {
+    let result = try compile(sourceMeta: "good code but no enough disk space")
+    print(result)
+} catch ErrorCode.notEnoughDiskSpace {
+    print("Disk space error")
+} catch let complierError as ErrorCode {
+    print ("Just comple error \(complierError)")
+} catch {
+    switch error {
+    case let ErrorCode.stackOverflow(message):
+        print("Error occured with message: \(message)")
+    default: print("Error occurs \(error)")
+    }
+}
+
+//2nd approach
+let failureCompiled = try? compile(sourceMeta: "infinity loop")
+print("failure compiled result \(String(describing: failureCompiled))")
+
+//defer
+
+enum HomeError: Error {
+    case noVisitors
+}
+var isHouseDoorOpened = false
+
+func visitHome(visitorsNumber: Int) throws {
+    isHouseDoorOpened = true
+    defer {
+        isHouseDoorOpened = false
+    }
+    
+    if visitorsNumber < 1 {
+        throw HomeError.noVisitors
+    }
+}
+
+try? visitHome(visitorsNumber: 0)
+print(isHouseDoorOpened)
+
+
+//GENERICS
