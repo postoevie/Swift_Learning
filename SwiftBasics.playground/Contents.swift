@@ -596,7 +596,7 @@ var matrixDim3 = Matrix3D(2, 2, 2)
 print(matrixDim3[1,1,1])
 matrixDim3[1,1,1] = 3
 print(matrixDim3[1,1,1])
-*/
+
 
 //enums
 enum Chess {
@@ -625,15 +625,15 @@ enum ServerResponse {
 let success = ServerResponse.success("Hello", "6  AM")
 let unauthorized = ServerResponse.unauthorized("Unauthorized")
 let forbidden = ServerResponse.forbidden("Forbidden")
-//
-//switch forbidden {
-//    case let .success(greeting, timestamp):
-//        print("\(greeting), it's \(timestamp) now")
-//    case let .unauthorized(message):
-//        print("Sorry, error: \(message)")
-//    case let .forbidden(message):
-//        print("Server error: \(message)")
-//}
+
+switch forbidden {
+    case let .success(greeting, timestamp):
+        print("\(greeting), it's \(timestamp) now")
+    case let .unauthorized(message):
+        print("Sorry, error: \(message)")
+    case let .forbidden(message):
+        print("Server error: \(message)")
+}
 
 let processorName = "AMD Athlon"
 switch processorName {
@@ -742,3 +742,32 @@ print(isHouseDoorOpened)
 
 
 //GENERICS
+func makeArray<Item>(repeatingItem item:Item,
+                     numbeOfTimes: Int) -> [Item] {
+    var result = [Item]()
+    for _ in 1...numbeOfTimes {
+        result.append(item)
+    }
+    
+    return result
+}
+
+let woofs = makeArray(repeatingItem: "woof", numbeOfTimes: 3)
+
+func commonElements<T: Sequence, U: Sequence> (lSeq: T, rSeq: U) -> [T.Element] where T.Element: Equatable, T.Element == U.Element{
+    var commonElements = [T.Element]()
+    for lItem in lSeq {
+        for rItem in rSeq {
+            if(lItem == rItem) {
+                if(!commonElements.contains(lItem)){
+            commonElements.append(lItem)
+                }
+            break
+            }
+        }
+    }
+    return commonElements
+}
+
+commonElements(lSeq: [1, 3, 5, 7], rSeq: [3, 7, 3])
+*/
