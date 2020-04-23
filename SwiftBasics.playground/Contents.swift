@@ -770,4 +770,47 @@ func commonElements<T: Sequence, U: Sequence> (lSeq: T, rSeq: U) -> [T.Element] 
 }
 
 commonElements(lSeq: [1, 3, 5, 7], rSeq: [3, 7, 3])
-*/
+
+
+//guard
+func callToServer(name: String?) {
+    guard let nameSentToServer = name else {
+        print("No name specified")
+        return
+    }
+}
+
+// or
+
+func oldCallToServer(name: String?) {
+    if let nameSentToServer = name {
+        
+    } else {
+        print("No name specified")
+    }
+}
+
+//regexp 3 approaches
+import Foundation
+func disemvowel(_ s: String) {
+    //using String.range
+    let invitation = "Fancy a game of Cluedo™?"
+    let rangeI = invitation.range(of: #"\bClue(do)?™?\b"#,
+                     options: .regularExpression)
+    if let unwrappedRange = rangeI {
+        print(invitation[unwrappedRange])
+    }
+    
+    //using NSRegularExpression - common way
+    let testInput = "Hello world"
+    let range = NSRange(location: 0, length:testInput.count)
+    let regex = try! NSRegularExpression(pattern: "^[o]")
+    
+    //String.replacingOccurences - modify string
+    testInput.replacingOccurrences(
+        of: #"(a|u|o|i|e)"#,
+        with: "",
+        options: .regularExpression
+    )
+}
+ */
