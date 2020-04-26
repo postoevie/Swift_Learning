@@ -814,23 +814,3 @@ func disemvowel(_ s: String) {
     )
 }
  */
-
-func digitalRoot(of number: Int) -> Int {
-    var result: Int = 0
-    var reminder: Int = 0
-    var afterDiv: Int = 0
-    var beforeDiv: Int = number
-    
-    repeat {
-        afterDiv = beforeDiv / 10
-        reminder = beforeDiv - afterDiv * 10
-        result += reminder
-        beforeDiv = afterDiv
-    }
-    while(beforeDiv != 0)
-    
-    
-    return result
-}
-
-digitalRoot(of: 120_000)
