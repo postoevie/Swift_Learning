@@ -814,3 +814,116 @@ func disemvowel(_ s: String) {
     )
 }
  */
+
+//Basics again
+
+//type aliases
+
+typealias WaterLevel = UInt8
+var currentWL = WaterLevel.min
+
+//Tuples
+let personDescriptioShort = (name: "Paul", age: 35)
+
+print("Person's name is \(personDescriptioShort.0), his/her age is \(personDescriptioShort.age)")
+
+let (age, _) = personDescriptioShort
+print("age again \(age)")
+
+
+//optionals
+
+let possibleNumber = "helloworld"
+let convertedNumber:Int? = Int(possibleNumber)
+
+var code: Int? = 404
+code = nil
+
+var settedtToNilAuto: Int?
+
+if convertedNumber != nil {
+    print("That string contains a number: \(convertedNumber!)")//exclamation point = ! or force unwrapping
+}
+
+//optional binding
+
+if var actualNumber = Int(possibleNumber) {
+    print("That string contains a number: \(actualNumber + 1)")//exclamation point ! = force unwrapping
+} else {
+    print("String \(possibleNumber) cannot be converted")
+}
+
+if let firstNumber = Int("4"), let secondNumber = Int("24"), firstNumber < secondNumber && secondNumber < 90 {
+    print("numbers accomplish all conditions")
+} else {
+    print("ONE of the conditions wasn't accomplished")
+}
+
+
+//implicitly unwrapped optionals
+let possibleString: String? = "An optional string"
+let forcedStr: String = possibleString!
+
+let assumedString: String! = "Assumed String"
+let implicitString: String = assumedString
+
+if let definiteString = assumedString {
+    print(definiteString)
+}
+
+
+struct Kitchen {
+    static var ingridientsForSandwitch = [
+        "cheese": 1,
+        "bread": 0,
+        "butter": 1,
+        "sausages": 2
+    ]
+    static var cleanDishes = 0
+}
+
+struct Sandwich {
+    static let filling = [
+        "cheese": 2,
+        "bread": 1,
+        "butter": 1,
+        "sausages": 1
+    ]
+}
+
+enum SandwichError : Error {
+    case missingIngridients(ingridients: String)
+    case outOfCleanDishes
+}
+
+//error handling
+func makeSandwich() throws {
+    if Kitchen.cleanDishes < 1 {
+        throw SandwichError.outOfCleanDishes
+    }
+    
+    var missedIngridients: String = ""
+    for ingridient in Sandwich.filling {
+        if(Kitchen.ingridientsForSandwitch[ingridient.key]! < Sandwich.filling[ingridient.key]!){
+            missedIngridients.append("\(ingridient.key) ")
+        }
+    }
+    if(!missedIngridients.isEmpty) {
+        throw SandwichError.missingIngridients(ingridients: missedIngridients)
+    }
+    
+    print ("Bon appetit!")
+}
+
+func eatSandwitch() {
+    print("Sandwitch has been eaten. Thank you!")
+}
+
+do {
+    try makeSandwich()
+    eatSandwitch()
+} catch SandwichError.outOfCleanDishes {
+    print("No clean dishes. Cleaning started...")
+} catch SandwichError.missingIngridients(let ingridients) {
+    print("Go to market. We need to buy \(ingridients)")
+}
