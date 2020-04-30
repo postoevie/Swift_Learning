@@ -815,6 +815,7 @@ func disemvowel(_ s: String) {
 }
  */
 
+/*
 //Basics again
 
 //type aliases
@@ -926,4 +927,191 @@ do {
     print("No clean dishes. Cleaning started...")
 } catch SandwichError.missingIngridients(let ingridients) {
     print("Go to market. We need to buy \(ingridients)")
+}
+*/
+
+/*
+//assertions and preconditions
+
+//assertions only in debug
+let age = 10
+assert(0 < age && age < 100, "Value of age is invalid")
+
+if age < 0 {
+    assertionFailure("Wrong age value")
+}
+
+//preconditions - everywhere. if unchecked mode off
+let index = 1
+precondition(index >= 0, "Index mustn't be less than 0")
+
+//also
+class PartlyCompletedClass {
+    func stubFunction() {
+        fatalError("This function isnt implemented yet")
+    }
+}
+
+//operators - standard and advanced
+
+//standard: C unary, binary, teranry operators, but:
+//1) assigment operator deosnt return value
+//2) arythmetic operators check for value owerflow
+//3) there is nil coalesing operator a ?? b: unwraps optional a, if a == value, ret a, if a == nil, return b
+//4) range operator 1...5 and half-range op 1..<5
+//5) one-sided range:
+
+var names = ["Nina", "Oksana", "Sergey", "David"]
+for name in names[1...] {
+    print(name)
+}
+print()
+for name in names[..<2] {
+    print(name)
+}
+
+//cannot
+//for name in names[1<..]
+
+let range = ...5
+range.contains(7)
+range.contains(-1)
+
+
+//Strings
+
+//in Unicode
+//concat
+let str1 = "str1"
+let str2 = "str2"
+print(str1 + " " + str2)
+
+//multiline
+let someEnglishText: String = """
+    Why do guys play basketball after lessons?
+        They just want to have a rest. \
+    We could go play with them
+    Ok, let's go
+    """
+print (someEnglishText)
+
+//extended delimeters
+var someText = #"Line1 \n Line2"#
+print(someText)
+someText = #"Line1 \#n Line2"#
+print(someText)
+
+//empty string
+var empStr1 = ""
+var empStr2 = String()
+
+//String class implement as mutable as immutable strings
+//String are value types!
+//String interpolation
+var amount = 6
+var sport = "valleyball"
+let predicateString = "There are \(amount) players in \(sport)"
+let withExtDels = #"There are \#(amount)"#
+
+//Unicode scalar values(21-bit), extended grapheme clusters...
+let stringWithUnicodeChars = "{\u{1F1FA}\u{1F1F8}"
+print(stringWithUnicodeChars)
+//string concatenation and modification may not always affect a string’s character count. e.g. when use extended graphems
+//characters can require different amount of memory -> can't indexed by integer -> indexed by String.Index
+
+var JPGreeting = "Konichiwaa"
+print(JPGreeting[JPGreeting.index(JPGreeting.startIndex, offsetBy: 2)]) // -> substring. short-term access. to long term - copy to string
+//indeces also available for COllections: Arrays, dictionaries, sets
+
+var insertMe = "n"
+JPGreeting.insert(contentsOf: insertMe, at: JPGreeting.index(JPGreeting.startIndex, offsetBy: 2))
+JPGreeting.remove(at: JPGreeting.index(before: JPGreeting.endIndex))
+let indexRange = JPGreeting.index(JPGreeting.endIndex, offsetBy: -6)..<JPGreeting.endIndex
+JPGreeting.removeSubrange(indexRange)
+
+//Two String values (or two Character values) are considered equal if their
+//extended grapheme clusters are canonically equivalent.
+//and latin A and Russian A are unequivalent
+//String hasPrefix , has Suffix
+*/
+//Collection types
+//arrays, sets, dictionaries. mutable, immutable
+
+//Arrays
+var items = [Int]()
+items = Array<Int>()
+items.count
+items.append(1)
+items = []
+
+let threeDb = Array<Double>(repeating: 1, count: 3)
+let twoDb = Array(repeating: 1.2, count: 2)
+
+let fiveDbs = threeDb + twoDb
+
+var shoppingList = ["Butter", "Milk"]
+shoppingList.count
+shoppingList.append("Bread")
+shoppingList += ["Eggs", "Cocoa", "Potato"]
+shoppingList[1...2] = ["Bananas", "Apples"]
+shoppingList.insert("Eggplant", at: 1)
+shoppingList.count
+let removedItem = shoppingList.remove(at: 1)
+shoppingList.removeLast()
+
+//iterate
+for product in shoppingList {
+    product
+}
+
+for (index, product) in shoppingList.enumerated() {
+    (index, product)
+}
+
+//Sets
+//Values - hashable
+
+var colors = Set<String>()
+colors.insert("Green")
+colors = [] // string set yet
+
+var favoriteGenres: Set = ["Rock", "Classical", "Electronic"]
+
+favoriteGenres.isEmpty
+
+let digits1: Set = [0, 1, 3, 4, 7]
+let digits2: Set = [1, 4, 7 , 8, 5]
+
+digits1.union(digits1).sorted()
+digits2.intersection(digits2)
+digits1.symmetricDifference(digits2)
+digits1.isDisjoint(with: digits2)
+digits2.isSuperset(of: digits2)
+
+//Dictionaries
+var readableNumbers = [Int : String]()
+readableNumbers[0] = "zero"
+readableNumbers = [:]
+
+var dictEngRus = [
+    "Apple": "Яблоко",
+    "Cucumber": "Огурец",
+    "Peach": "Персик",
+    "Tomato": "Томат"
+]
+
+dictEngRus["Plant"] = "Растение"
+
+//returns optional (old value or nil)
+dictEngRus.updateValue("Хлеб", forKey: "Bread")
+
+let potatoInRussian = dictEngRus["Potato"]
+
+if let value = potatoInRussian {
+    "Potato in Russian is: \(value)"
+} else {
+    "No word in dictionary"
+}
+if let removedVal = dictEngRus.removeValue(forKey: "Peach") {
+    "\(removedVal) succesfully removed from dictionary"
 }
