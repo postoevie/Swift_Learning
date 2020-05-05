@@ -1033,7 +1033,7 @@ JPGreeting.removeSubrange(indexRange)
 //extended grapheme clusters are canonically equivalent.
 //and latin A and Russian A are unequivalent
 //String hasPrefix , has Suffix
-*/
+x
 //Collection types
 //arrays, sets, dictionaries. mutable, immutable
 
@@ -1092,7 +1092,7 @@ digits2.isSuperset(of: digits2)
 var readableNumbers = [Int : String]()
 readableNumbers[0] = "zero"
 readableNumbers = [:]
-
+*/
 var dictEngRus = [
     "Apple": "Яблоко",
     "Cucumber": "Огурец",
@@ -1115,3 +1115,107 @@ if let value = potatoInRussian {
 if let removedVal = dictEngRus.removeValue(forKey: "Peach") {
     "\(removedVal) succesfully removed from dictionary"
 }
+
+//Control flow
+
+//dicts sets - unordered
+for (eng, rus) in dictEngRus {
+    "\(eng) : \(rus)"
+}
+
+for index in 0...5 {
+    index
+}
+
+var base = 2
+let power = 3
+var answer = 1
+for _ in 1...power {
+    answer *= base
+}
+
+//and through
+let interval = 10
+
+loopLabel: for tickmark in stride(from: 0, to: 60, by: interval) {
+    if(tickmark == 20) {
+        continue loopLabel
+    }
+    print(tickmark)
+}
+
+// when we dont know amount of iterations - use while
+
+let boilingTemperature = 80
+var pressureStatus: String?
+switch boilingTemperature {
+    case 20...40: pressureStatus = "Low"
+    case 41...70: pressureStatus = "Middle"
+    case 71...90: pressureStatus = "Extra middle"
+    case 91...100: pressureStatus = "Normal"
+                   fallthrough
+    default: break
+    
+}
+
+if let actualStatus = pressureStatus {
+    "pressure status is \(actualStatus)"
+}
+
+let point = (0, 1)
+let position: String
+
+///first matched case used
+switch point {
+    case (0, 0): position = "origin"
+    case (_, 0): position = "on the y axis"
+    case (let distance, 0), (0, let distance):
+    position = "On an axis, distance \(distance)"
+    case(-1...1, -1...1): position = "inside the box"
+case(-1, 1), (1, 1), (-1, -1), (1, -1): position = "on the central square corner with length 1"
+    case let (x, y) where x == y: position = "on the line x == y"
+    case let (x, y): position = "some arbitrary point at \(x):\(y)"
+}
+
+//guard
+func getRussianTomato (dictionary: [String: String]) -> (String?) {
+    guard let tomatoInRussian = dictionary["Tomato"] else {
+        "No tomato translation"
+        return nil// break continue throw fatalerror - exit the block
+    }
+    return tomatoInRussian
+}
+
+//Functions
+
+func greeting(_ names: String...) -> String? {
+    if names.isEmpty {
+        return nil
+    }
+    return "Hello \(names.joined(separator: ", "))"
+}
+
+if let greetingString = greeting("Shen", "Kate", "Lee") {
+    greetingString
+} else {
+    "no one to greet"
+}
+
+func swapTwoInts (_ a: inout Int, _ b: inout Int) {
+    a = a + b
+    b = a - b
+    a = a - b
+}
+
+//multiple return value
+//optional tuple return
+//implicit return
+//function argument labels
+//omitting arg labels
+//default par values
+//variadic parameters
+//in-out
+//function types
+//funct types as int parameter and return val
+//nested functions
+
