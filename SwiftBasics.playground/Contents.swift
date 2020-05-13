@@ -1092,7 +1092,7 @@ digits2.isSuperset(of: digits2)
 var readableNumbers = [Int : String]()
 readableNumbers[0] = "zero"
 readableNumbers = [:]
-*/
+
 var dictEngRus = [
     "Apple": "Яблоко",
     "Cucumber": "Огурец",
@@ -1218,4 +1218,59 @@ func swapTwoInts (_ a: inout Int, _ b: inout Int) {
 //function types
 //funct types as int parameter and return val
 //nested functions
+*/
+
+//closures
+
+var sports = ["Baseball", "Athletics", "Swimming", "Soccer"]
+
+func reverseSort(_ x: String, _ y: String) -> Bool {
+    return x > y
+}
+
+sports.sorted(by: reverseSort)
+
+//closure exp
+sports.sorted(by: {(s1: String, s2: String) -> Bool in return s1 < s2})
+
+//single expression closure
+sports.sorted(by: {s1, s2 in s1 > s2})
+
+//shorthand agrument
+sports.sorted(by: {$0 < $1})
+
+//operator method
+sports.sorted(by: <)
+
+print(sports)
+
+func sortItNow(needsToBeSorted: [String], closure: (_ s1: String, _ s2: String) -> Bool) {
+    var mutableArg = needsToBeSorted
+    mutableArg.sort(by: closure)
+}
+
+//trailing closure - closure as last argument
+sortItNow(needsToBeSorted: sports) {
+    s1, s2 in s1 < s2
+}
+
+//if closure is the only argment - can avoid parentss
+var reversedSports = sports.sorted {$0 > $1}
+
+//closures and funcs are reference types
+//escaping closures
+
+var completionHandlers: [() -> Void] = []
+
+func appendEscapingWhenFinish (closure: @escaping() -> Void) {
+    completionHandlers.append(closure)
+}
+
+appendEscapingWhenFinish {
+    print("Finished!")
+}
+
+completionHandlers.first?()
+
+var opt: String? = "Hi"
 

@@ -134,3 +134,45 @@ class SolutionBest1 {
         }.map { $0.offset }
     }
 }
+
+
+//Given a positive number n > 1 find the prime factor decomposition of n. The result will be a string with the following form :
+//"(p1**n1)(p2**n2)...(pk**nk)"
+
+func isPrime(_ possiblePrime: Int) -> Bool {
+    for index in 2..<possiblePrime / 2 {
+        if possiblePrime % index == 0 {
+            return false
+        }
+    }
+    return true
+}
+
+func factors(_ number: Int) -> String {
+
+    var factorToPowerDict: [Int : Int] = [:]
+    var numberToFactor = number
+    for index in 2...numberToFactor {
+        if numberToFactor % index == 0 {
+            isPrime(index) {
+                factorToPowerDict[index] += 1
+            }
+        }
+    }
+    
+    func isPrime(_ possiblePrime: Int) -> Bool {
+        for index in 2..<possiblePrime / 2 {
+            if possiblePrime % index == 0 {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+isPrime(42)
+
+let number = 25
+// find a divider
+//
+//
